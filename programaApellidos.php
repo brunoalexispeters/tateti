@@ -1,13 +1,18 @@
 <?php
-include_once("tateti.php");
+
+
+/*
+La librería tateti posee la definición de constantes y funciones necesarias
+para jugar al tateti.
+Puede ser utilizada por cualquier programador para incluir en sus programas.
+*/
 
 /**************************************/
 /***** DATOS DE LOS INTEGRANTES *******/
 /**************************************/
 
-/* Apellido, Nombre. Legajo. Carrera. mail. Usuario Github */
-/* ... COMPLETAR ... */
-
+// Luis Lopez**  Legajo FAI 3027 - mail: lucho38812@gmail.com - usuario github: lucholopez02
+//Bruno Peters** Legajo FAI 3600 - mail: brunoalexis95@gmail.com - usuario github: brunoalexispeters
 
 
 
@@ -91,7 +96,7 @@ function solicitarNumeroEntre($min, $max){
  */
 function datosDelJuego($numJuego){
     //$imprimir 
-    $imprimir=imprimirResultado($numJuego);
+    $imprimir= imprimirResultado($numJuego);
     return $imprimir;
 }
 
@@ -182,49 +187,159 @@ function resumenJugador ($juegosJugados,$claveNombre){
     }
 }
 
+/**
+ * Muestra el resumen de un jugador,y lo muestra por pantalla
+ * @param array $resumen
+ * 
+ */
+function mostrarResumenPantalla($resumen){
 
+    echo "Jugador: ".$resumen["nombre"]."\n";
+    echo "Ganó: ".$resumen["juegosGanados"]." juegos \n";
+    echo "Perdió: ".$resumen["juegosPerdidos"]." juegos \n";
+    echo "Empató: ".$resumen["juegosEmpatados"]." juegos \n";
+    echo "Total de puntos acumulados: ".$resumen["puntosAcumulados"]." puntos \n";
 
+}
+
+/**
+ * FUNCION N°8
+ * Funcion que pide y verifica que se ingrese un simbolo X o O
+ * @return string
+ */
+function obtenerSimbolo(){
+    //string $simbolo, boolean $validarSimbolo ;
+
+    // Inicialización de variables
+    $validarSimbolo = false;
+
+     do{  
+        echo"Ingrese un simbolo 'X' o 'O': ";
+        $simbolo = strtoupper(trim(fgets(STDIN))); //strtoupper convierte a todos los carácteres en mayúsculas
+        if($simbolo  == "X" || $simbolo == "O"){
+            $validarSimbolo  = true;
+        }else{
+            echo"Simbolo inválido.\n";
+        }
+    // Se repetirá hasta que el usuario ingrese X o O
+    }while ($validarSimbolo == false);
+    
+    return $simbolo;   
+}
+
+/**
+ * FUNCION N°9
+ * Funcion que dada una colección de juegos retorna la cantidad de juegos ganados (sin empates)
+ * @param array $colecJuegos
+ * @return integer
+ */
+function totalGanadas($coleccionJuegos){
+    // int $contGanados, $nJuegos, $i
+
+    // Inicialización de variables y obtención de la cantidad de elementos mediante count
+    $nJuegos= count($coleccionJuegos);
+    $contGanados = 0;
+
+    // Recorrido exhaustivo. Revisará todas las partidas y sumará uno por cada victoria
+    for ($i = 0; $i<$nJuegos; $i++){
+        if ($coleccionJuegos[$i]["puntosCruz"] > $coleccionJuegos[$i]["puntosCirculo"]){
+            $contGanados++;
+        } elseif($coleccionJuegos[$i]["puntosCruz"] < $coleccionJuegos[$i]["puntosCirculo"]){
+            $contGanados++;
+        }
+    }
+
+    return $contGanados;
+}
 
 
 /**************************************/
 /*********** PROGRAMA PRINCIPAL *******/
 /**************************************/
 
-//Declaración de variables:
+/** Declaración de variables: */
+//DECLARAR VARIABLES
+/** Inicialización de variables: */
+$jugadosTotal = [];
+$juego = [];
+$salir = true;
+
+/** Proceso: */
+$jugadosTotal = cargarJuegos();
+$separadorBotonera = "\n\n\n\n+++++++++++++++++++++++++++++++++\n";
 
 
-//Inicialización de variables:
 
-
-//Proceso:
-
-//$juego = jugar();
 //print_r($juego);
 //imprimirResultado($juego);
 
 
-
-/*
+/**Switch para la botonera o menu selector */
 do {
-    $opcion = ...;
 
+    echo $separadorBotonera;
+    $opcion = selectionarOpcion();
+    
     
     switch ($opcion) {
         case 1: 
-            //completar qué secuencia de pasos ejecutar si el usuario elige la opción 1
-
+            // 1) Jugar:
+            $juego = jugar();
+            $juegosTotal = agregarJuego($juegosTotal, $juego);
+            $indice = count($juegosTotal) - 1;
+            datosDelJuego($juegosTotal, $indice);
+            // print_r($indice);
             break;
         case 2: 
-            //completar qué secuencia de pasos ejecutar si el usuario elige la opción 2
-
+            // 2) Mostrar un juego:
+            echo "Ingresar el número de juego entre 0 y ".(count($juegosTotal)-1)."\n";
+            $numero = solicitarNumeroEntre(0, count($juegosTotal));
+            datosDelJuego($juegosTotal, $numero);
             break;
         case 3: 
-            //completar qué secuencia de pasos ejecutar si el usuario elige la opción 3
-
+            // 3) Mostrar el primer juego ganado:
+            echo "Ingrese el nombre del jugador: \n";
+            $nombreJugador = strtoupper(trim(fgets(STDIN)));
+            $indicePrimerJuego = primerJuegoGanado($juegosTotal, $nombreJugador);
+            if ($indicePrimerJuego != -1) {
+                echo mostrarJuego($juegosTotal, $indicePrimerJuego);
+            }else{
+                echo "El jugador " . $nombreJugador . " no ganó ningún juego\n";
+            }
             break;
-        
-            //...
-    }
-} while ($opcion != X);
-*/
+        case 4:
+            // 4) Mostrar porcentaje de Juegos ganados según el simbolo seleccionado:
+            $simbolo = obtenerSimbolo();
+            $juegosGanados = totalGanadas($juegosTotal);
 
+            // ACA VA LA FUNCION 10
+            break;
+        case 5:
+            // 5) Mostrar resumen de Jugador:
+            echo "Ingrese el nombre del Jugador: ";
+            $nombreJugador = strtoupper(trim(fgets(STDIN)));
+            $resumen = resumenJugador($juegosTotal, $nombreJugador);
+
+            if ($resumen["juegosPerdidos"] === 0 && $resumen["puntosAcumulados"] === 0) {
+                echo "No hay registro del jugador. ". $nombreJugador ."\n";
+            }else {
+                
+                echo "*************************************\n"; // separador
+                echo "Jugador: " . $resumen["nombre"] . "\n";
+                echo "Ganó: " . $resumen["juegosGanados"] . " juegos\n";
+                echo "Perdió: " . $resumen["juegosPerdidos"] . " juegos\n";
+                echo "Empató " . $resumen["juegosEmpatados"] . " juegos\n";
+                echo "Total de puntos acumulados: " . $resumen["puntosAcumulados"] . " puntos\n";
+                echo "*************************************\n"; // separador
+            }
+            break;
+        case 6:
+            // 6) Mostrar listado de juegos Ordenado por jugador O:
+            // FUNCION 11
+            break;
+        case 7:
+            // 7) Finalizar programa:
+            echo "Programa finalizado.... besito :)";
+            break;
+    }
+} while ($opcion != 7);
