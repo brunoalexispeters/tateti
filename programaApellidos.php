@@ -13,8 +13,7 @@ Puede ser utilizada por cualquier programador para incluir en sus programas.
 
 // Luis Lopez**  Legajo FAI 3027 - mail: lucho38812@gmail.com - usuario github: lucholopez02
 //Bruno Peters** Legajo FAI 3600 - mail: brunoalexis95@gmail.com - usuario github: brunoalexispeters
-
-
+// German Ariel Metzger** Legajo FAI - 3521 - mail: metzgergerman@gmail.com usuario github: GermanMetzger
 
 
 /**************************************/
