@@ -250,6 +250,29 @@ function totalGanadas($coleccionJuegos){
 
     return $contGanados;
 }
+ /**
+ * Punto 10
+ * Verifica cuantos juegos ganó según X o O
+ * @param array $coleccionJuegos
+ * @param string $simbolo
+ * @return int
+ */
+function cantGanados($coleccionJuegos, $simbolo)
+{
+    // int $juegosGanados, $puntos, $puntosOpuesto
+    // string $simbolo, $simboloOpuesto
+    $juegosGanados = 0;
+
+    if (strtoupper($simbolo) === "X") {
+        $simbolo = "Cruz";
+        $simboloOpuesto = "Circulo";
+    }else {
+        $simbolo = "Circulo";
+        $simboloOpuesto = "Cruz";
+    }
+
+    for ($i=0; $i < count($coleccionJuegos); $i++) { 
+
 
 
 /**************************************/
@@ -301,7 +324,7 @@ do {
             $nombreJugador = strtoupper(trim(fgets(STDIN)));
             $indicePrimerJuego = primerJuegoGanado($juegosTotal, $nombreJugador);
             if ($indicePrimerJuego != -1) {
-                echo mostrarJuego($juegosTotal, $indicePrimerJuego);
+                mostrarJuego($juegosTotal, $indicePrimerJuego);
             }else{
                 echo "El jugador " . $nombreJugador . " no ganó ningún juego\n";
             }
