@@ -261,7 +261,8 @@ function cantGanados($coleccionJuegos, $simbolo)
 {
     // int $juegosGanados, $puntos, $puntosOpuesto
     // string $simbolo, $simboloOpuesto
-    $juegosGanados = 0;
+    $juegosGanadosO = 0; // contador
+    $juegosGanadosX = 0;  // contador
 
     if (strtoupper($simbolo) === "X") {
         $simbolo = "Cruz";
@@ -272,9 +273,53 @@ function cantGanados($coleccionJuegos, $simbolo)
     }
 
     for ($i=0; $i < count($coleccionJuegos); $i++) { 
+        if (!($coleccionJuegos[$i]["puntos".$simbolo]) === ($coleccionJuegos[$i]["puntos".$simboloOpuesto])) {
+            $puntos = $coleccionJuegos[$i]["puntos".$simbolo];
+            $puntosOpuesto = $coleccionJuegos[$i]["puntos".$simboloOpuesto];
 
+            if ($puntos > $puntosOpuesto) {
+                $juegosGanados++;
+            }
+        }
+    }
+    return $juegosGanados;
+}
 
+/**
+ * Punto 11 - funcion de comparación
+ * Compara de a 2 claves para determinar cual es mayor 
+ * @param string $a
+ * @param string $b
+ * @return int
+ */ 
+function comparar($a, $b) {
+    if ($a["jugadorCirculo"] == $b["jugadorCirculo"]) {
+        $orden = 0;
+    }
+    elseif (($a["jugadorCirculo"] < $b["jugadorCirculo"])) {
+        $orden =-1;
+    } else {
+        $orden =1;
+    }
+    return $orden;
+}
 
+/**
+ * Punto 11
+ * Muestra la cantidad de juegos ordenados por nombre jugador O 
+ * @param array $coleccionJuegos)
+ * @return array
+ */ 
+function ordenarColeccion($coleccionJuegos)
+{
+    //Esta función ordena un array tal que los índices de array mantienen sus correlaciones 
+    // con los elementos del array con los que están asociados, 
+    // usando una función de comparación definida por el usuario.
+    uasort($coleccionJuegos, 'comparar');
+    //  muestra información sobre una variable en una forma que es legible por humanos
+    print_r($coleccionJuegos);
+}
+ 
 /**************************************/
 /*********** PROGRAMA PRINCIPAL *******/
 /**************************************/
@@ -297,6 +342,15 @@ $separadorBotonera = "\n\n\n\n+++++++++++++++++++++++++++++++++\n";
 
 
 /**Switch para la botonera o menu selector */
+//Inicialización de variables:
+$juegosTotal = cargarJuegos();
+$separador = "\n\n\n\n+++++++++++++++++++++++++++++++++\n";
+
+//Proceso:
+
+//print_r($juego);
+//imprimirResultado($juego);
+
 do {
 
     echo $separadorBotonera;
