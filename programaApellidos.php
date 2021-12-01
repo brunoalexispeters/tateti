@@ -26,20 +26,88 @@ Puede ser utilizada por cualquier programador para incluir en sus programas.
  * @return array $coleccionjuegos
  */
 
-function cargarJuegos (){
-    $coleccionJuegos[0] = ["jugadorCruz" => "juan", "jugadorCirculo" => "pepe", "puntosCruz" => 5, "puntosCirculo" => 0];
-    $coleccionJuegos[1] = ["jugadorCruz"=> "juan" , "jugadorCirculo" => "lucho", "puntosCruz"=> 1, "puntosCirculo" => 1];
-    $coleccionJuegos[2] = ["jugadorCruz"=> "lucho" , "jugadorCirculo" => "bruno", "puntosCruz"=> 1, "puntosCirculo" => 1];
-    $coleccionJuegos[3] = ["jugadorCruz"=> "lucho" , "jugadorCirculo" => "juan", "puntosCruz"=> 5, "puntosCirculo" => 0];
-    $coleccionJuegos[4] = ["jugadorCruz"=> "bruno" , "jugadorCirculo" => "bruno", "puntosCruz"=> 1, "puntosCirculo" => 1];
-    $coleccionJuegos[5] = ["jugadorCruz"=> "juan" , "jugadorCirculo" => "pedro", "puntosCruz"=> 1, "puntosCirculo" => 1];
-    $coleccionJuegos[6] = ["jugadorCruz"=> "pedro" , "jugadorCirculo" => "juan", "puntosCruz"=> 5, "puntosCirculo" => 0];
-    $coleccionJuegos[7] = ["jugadorCruz"=> "lucho" , "jugadorCirculo" => "juan", "puntosCruz"=> 1, "puntosCirculo" => 1];
-    $coleccionJuegos[8] = ["jugadorCruz"=> "lucho" , "jugadorCirculo" => "juan", "puntosCruz"=> 1, "puntosCirculo" => 1];
-    $coleccionJuegos[9] = ["jugadorCruz"=> "pedro" , "jugadorCirculo" => "bruno", "puntosCruz"=> 5, "puntosCirculo" => 0];
-    $coleccionJuegos[10] = ["jugadorCruz"=> "miguel" , "jugadorCirculo" => "lucho", "puntosCruz"=> 1, "puntosCirculo" => 1];
-    $coleccionJuegos[11] = ["jugadorCruz"=> "juan" , "jugadorCirculo" => "miguel", "puntosCruz"=> 1, "puntosCirculo" => 1];
-        return ($coleccionJuegos);
+/** Función para colección de juegos (1)
+ * @param void
+ * @return array
+ */
+function cargarJuegos()
+{
+    /** inicializa una estructura de juegos con 10 ejemplos
+    * array $coleccionJuegos, $unJuego
+    */
+    $coleccionJuegos = array();
+    $unJuego = [];
+    $unJuego = array(
+        'jugadorCruz' => 'majo',
+        'jugadorCirculo' => 'pepe',
+        'puntosCruz' => '5',
+        'puntosCirculo' => '0'
+    );
+    $coleccionJuegos = agregarJuego($coleccionJuegos, $unJuego);
+    $unJuego = array(
+        'jugadorCruz' => 'juan',
+        'jugadorCirculo' => 'majo',
+        'puntosCruz' => '1',
+        'puntosCirculo' => '1'
+    );
+    $coleccionJuegos = agregarJuego($coleccionJuegos, $unJuego);
+    $unJuego = array(
+        'jugadorCruz' => 'ana',
+        'jugadorCirculo' => 'lisa',
+        'puntosCruz' => '1',
+        'puntosCirculo' => '1'
+    );
+    $coleccionJuegos = agregarJuego($coleccionJuegos, $unJuego);
+    $unJuego = array(
+        'jugadorCruz' => 'lucho',
+        'jugadorCirculo' => 'ana',
+        'puntosCruz' => '5',
+        'puntosCirculo' => '0'
+    );
+    $coleccionJuegos = agregarJuego($coleccionJuegos, $unJuego);
+    $unJuego = array(
+        'jugadorCruz' => 'ana',
+        'jugadorCirculo' => 'bruno',
+        'puntosCruz' => '0',
+        'puntosCirculo' => '5'
+    );
+    $coleccionJuegos = agregarJuego($coleccionJuegos, $unJuego);
+    $unJuego = array(
+        'jugadorCruz' => 'pepe',
+        'jugadorCirculo' => 'majo',
+        'puntosCruz' => '1',
+        'puntosCirculo' => '1'
+    );
+    $coleccionJuegos = agregarJuego($coleccionJuegos, $unJuego);
+    $unJuego = array(
+        'jugadorCruz' => 'juan',
+        'jugadorCirculo' => 'lucho',
+        'puntosCruz' => '0',
+        'puntosCirculo' => '5'
+    );
+    $coleccionJuegos = agregarJuego($coleccionJuegos, $unJuego);
+    $unJuego = array(
+        'jugadorCruz' => 'majo',
+        'jugadorCirculo' => 'bruno',
+        'puntosCruz' => '5',
+        'puntosCirculo' => '0'
+    );
+    $coleccionJuegos = agregarJuego($coleccionJuegos, $unJuego);
+    $unJuego = array(
+        'jugadorCruz' => 'nico',
+        'jugadorCirculo' => 'juan',
+        'puntosCruz' => '1',
+        'puntosCirculo' => '1'
+    );
+    $coleccionJuegos = agregarJuego($coleccionJuegos, $unJuego);
+    $unJuego = array(
+        'jugadorCruz' => 'nico',
+        'jugadorCirculo' => 'bruno',
+        'puntosCruz' => '0',
+        'puntosCirculo' => '5'
+    );
+    $coleccionJuegos = agregarJuego($coleccionJuegos, $unJuego);
+    return $coleccionJuegos;
 }
 
  /**
@@ -71,9 +139,8 @@ function seleccionarOpcion()
     return $opcion;
 }
  
- /**
- * FUNCION N°3
- * Implementar una función que solicite al usuario un número entre un rango de valores.Si el número ingresado por el usuario no es válido, la función se encarga de volver a pedirlo.La función retorna un número válido.
+ /** REUTILIZAMOS FUNCION DE TATETI
+ * Solicita al usuario un número en el rango [$min,$max]
  * @param int $min
  * @param int $max
  * @return int
@@ -84,7 +151,6 @@ function numeroEntre($min,$max)
    return solicitarNumeroEntre($min,$max);
 
 }
-
  /**
  * FUNCION N°4
  * Mostrar datos de un juego dado con formato 
@@ -367,7 +433,9 @@ $juegosTotal = [];
 $juego = [];
 $salir = true;
 
+
 /** Proceso: */
+$juegosTotal = cargarJuegos();
 
 
 //print_r($juego);
@@ -375,10 +443,10 @@ $salir = true;
 
 
 /**Switch para la botonera o menu selector */
-//Inicialización de variables:
-$juegosTotal = cargarJuegos();
-$separador = "\n\n\n\n+++++++++++++++++++++++++++++++++\n";
 
+
+$separador = "\n\n\n\n+++++++++++++++++++++++++++++++++\n";
+/**Switch para la botonera o menu selector */
 do {
 
     echo $separador;
