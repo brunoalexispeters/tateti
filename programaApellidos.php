@@ -1,5 +1,5 @@
 <?php
-
+include_once("tateti.php");
 
 /*
 La librería tateti posee la definición de constantes y funciones necesarias
@@ -42,61 +42,77 @@ function cargarJuegos (){
         return ($coleccionJuegos);
 }
 
-/**
- * 2
- * Metodo que intenta resolver el punto 2 EXPLICACION 3
- * visualiza el menu de opciones y retona una opcion valida
+ /**
+ * FUNCION N° 2
+ * Muestra el menu y retorna la opcion seleccionada
  * @return int
  */
- 
-function selectionarOpcion(){
-    do {
-        echo "INGRESE UNA OPCION" . "\n";
-        echo "1) Jugar al tateti" . "\n";
-        echo "2) Mostrar un juego" . "\n";
-        echo "3) Mostrar el primer juego ganador" . "\n";
-        echo "4) Mostrar porcentaje de Juegos ganados" . "\n";
-        echo "5) Mostrar resumen de Jugador" . "\n";
-        echo "6) Mostrar listado de juegos Ordenado por jugador O" . "\n";
-        echo "7) Salir" . "\n";
-        $opcion = trim(fgets(STDIN));
-        if (!(is_int($opcion)) && !($opcion >= 1 && $opcion <= 7)) {
-            echo "Opcion NO Valida." . "\n";
-        }
-    } while (!(is_int($opcion)) && !($opcion >= 1 && $opcion <= 7));
+function seleccionarOpcion()
+{
+    // array $menu,
+    // int $opcion
+    // inicio una array $menu donde están todas las opciones
+    $seleccionarMenu = [
+        "1) Jugar Tateti",
+        "2) Mostrar un juego",
+        "3) Mostrar el primer juego ganado",
+        "4) Mostrar porcentaje de Juegos ganados",
+        "5) Mostrar resumen de Jugador",
+        "6) Mostrar listado de juegos Ordenado por jugador O",
+        "7) Salir"
+    ];
+    echo "Selecciona una opción del Menú: \n";
+    foreach ($seleccionarMenu as $key ) {
+        echo $key . "\n";
+    }
+    
+    // solicito que ingrese una opcion entre 1 y 7 usando la funcion del archivo tateti.php
+    $opcion = solicitarNumeroEntre(1,7);
     return $opcion;
 }
-echo " ". SelectionarOpcion();
-
-
  
-/**
- * 3
- * Solicita al usuario un número en el rango [$min,$max]
+ /**
+ * FUNCION N°3
+ * Implementar una función que solicite al usuario un número entre un rango de valores.Si el número ingresado por el usuario no es válido, la función se encarga de volver a pedirlo.La función retorna un número válido.
  * @param int $min
  * @param int $max
- * @return int 
+ * @return int
  */
-function solicitarNumeroEntre($min, $max){
-    //int $numero
-    $numero = trim(fgets(STDIN));
-    while (!is_int($numero) && !($numero >= $min && $numero <= $max)) {
-        echo "Debe ingresar un número entre " . $min . " y " . $max . ": ";
-        $numero = trim(fgets(STDIN));
-    }
-    return $numero;
+function numeroEntre($min,$max)
+{
+   //se invoca a la funcion  solicitarNumeroEntre  de tateti que cumple con esta tarea
+   return solicitarNumeroEntre($min,$max);
+
 }
 
-/**
- * 4
- * muestra en pantalla los datos del juego
- * @param int $numJuego
- * @return array
+ /**
+ * FUNCION N°4
+ * Mostrar datos de un juego dado con formato 
+ * @param array $juegosTotal
+ * @param int $numeroJuego
  */
-function datosDelJuego($numJuego){
-    //$imprimir 
-    $imprimir= imprimirResultado($numJuego);
-    return $imprimir;
+function datosDelJuego($juegosTotal, $numeroJuego)
+{
+
+    $nombreX = strtoupper($juegosTotal[$numeroJuego]["jugadorCruz"]);
+    $nombreO = strtoupper($juegosTotal[$numeroJuego]["jugadorCirculo"]);
+    $puntosX = $juegosTotal[$numeroJuego]["puntosCruz"];
+    $puntosO = $juegosTotal[$numeroJuego]["puntosCirculo"];
+
+    // si son iguales es empate, sino asigno ganador a $resultado
+    if ($puntosX == $puntosO) {
+        $resultado = "(empate)";
+    }elseif ($puntosX > $puntosO) {
+        $resultado = "(ganó X)";
+    }else {
+        $resultado = "(ganó O)";
+    }
+    // imprimo el resultado del juego
+    echo "****************************\n";
+    echo "Juego TATETI: " . $numeroJuego . " " . $resultado . "\n";
+    echo "Jugador X: " . $nombreX . " obtuvo " . $puntosX . "\n";
+    echo "Jugador O: " . $nombreO . " obtuvo " . $puntosO . "\n";
+    echo "****************************\n"; 
 }
 
 /**
@@ -286,7 +302,7 @@ function cantGanados($coleccionJuegos, $simbolo)
 }
 
 /**
- * Punto 11 - funcion de comparación
+ * FUNCION N°10 - funcion de comparación
  * Compara de a 2 claves para determinar cual es mayor 
  * @param string $a
  * @param string $b
@@ -305,15 +321,14 @@ function comparar($a, $b) {
 }
 
 /**
- * Punto 11
+ * FUNCION N°11
  * Muestra la cantidad de juegos ordenados por nombre jugador O 
  * @param array $coleccionJuegos)
  * @return array
  */ 
 function ordenarColeccion($coleccionJuegos)
 {
-    //Esta función ordena un array tal que los índices de array mantienen sus correlaciones 
-    // con los elementos del array con los que están asociados, 
+
     // usando una función de comparación definida por el usuario.
     uasort($coleccionJuegos, 'comparar');
     //  muestra información sobre una variable en una forma que es legible por humanos
@@ -327,14 +342,11 @@ function ordenarColeccion($coleccionJuegos)
 /** Declaración de variables: */
 //DECLARAR VARIABLES
 /** Inicialización de variables: */
-$jugadosTotal = [];
+$juegosTotal = [];
 $juego = [];
 $salir = true;
 
 /** Proceso: */
-$jugadosTotal = cargarJuegos();
-$separadorBotonera = "\n\n\n\n+++++++++++++++++++++++++++++++++\n";
-
 
 
 //print_r($juego);
@@ -346,18 +358,13 @@ $separadorBotonera = "\n\n\n\n+++++++++++++++++++++++++++++++++\n";
 $juegosTotal = cargarJuegos();
 $separador = "\n\n\n\n+++++++++++++++++++++++++++++++++\n";
 
-//Proceso:
-
-//print_r($juego);
-//imprimirResultado($juego);
-
 do {
 
-    echo $separadorBotonera;
-    $opcion = selectionarOpcion();
+    echo $separador;
+    $elegir = seleccionarOpcion();
     
     
-    switch ($opcion) {
+    switch ($elegir) {
         case 1: 
             // 1) Jugar:
             $juego = jugar();
@@ -388,7 +395,10 @@ do {
             $simbolo = obtenerSimbolo();
             $juegosGanados = totalGanadas($juegosTotal);
 
-            // ACA VA LA FUNCION 10
+            $cantGanados = cantGanados($juegosTotal, $simbolo);
+            $porcentajeGanados = $cantGanados*100/$juegosGanados;
+            echo "El porcentaje de juegos ganados por " . $simbolo . " es del " . round($porcentajeGanados, 2) . "%.\n";
+            break;
             break;
         case 5:
             // 5) Mostrar resumen de Jugador:
@@ -410,12 +420,12 @@ do {
             }
             break;
         case 6:
-            // 6) Mostrar listado de juegos Ordenado por jugador O:
-            // FUNCION 11
+                // 6) Mostrar listado de juegos Ordenado por jugador O:
+                ordenarColeccion($juegosTotal);
             break;
         case 7:
             // 7) Finalizar programa:
             echo "Programa finalizado.... besito :)";
             break;
     }
-} while ($opcion != 7);
+} while ($elegir != 7);
